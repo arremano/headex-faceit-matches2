@@ -43,9 +43,9 @@
         const data = await res.json();
         const m = data?.stats?.lifetime?.Matches ?? data.matches ?? data.total_matches;
         if (m) {
-          document.getElementById('matches').textContent = `Matches: ${m}`;
+          document.getElementById('matches').textContent = `faceitcocks Matches: ${m}`;
         } else {
-          document.getElementById('matches').textContent = 'Matches: ?';
+          document.getElementById('matches').textContent = 'faceitcocks Matches: ?';
           document.getElementById('matches').id = 'error';
         }
       } catch (err) {
