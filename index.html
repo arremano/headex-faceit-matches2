@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Faceit Matches</title>
+  <title>FACEIT Matches</title>
   <style>
     html, body {
       margin: 0;
@@ -34,27 +34,29 @@
   <script>
     const qs = new URLSearchParams(location.search);
     const nick = (qs.get('nick') || 'Headex').trim();
-    const apiBase = (qs.get('api') || 'https://api.satont.ru/faceit').replace(/\/$/, '');
+
     async function fetchMatches() {
       try {
-        const url = `${apiBase}?nick=${encodeURIComponent(nick)}`;
+        const url = `https://faceit-api.glitch.me/player/${encodeURIComponent(nick)}`;
         const res = await fetch(url);
         if (!res.ok) throw new Error("API request failed");
         const data = await res.json();
-        const m = data?.stats?.lifetime?.Matches ?? data.matches ?? data.total_matches;
-        if (m) {
-          document.getElementById('matches').textContent = `Matches: ${m}`;
+
+        const matches = data?.games?.cs2?.matches;
+        if (matches) {
+          document.getElementById('matches').textContent = `FACEIT Matches: ${matches}`;
         } else {
-          document.getElementById('matches').textContent = 'Matches: ?';
-          document.getElementById('matches').id = 'error';
+          document.getElementById('matches').textContent = 'FACEIT Matches: ?';
         }
       } catch (err) {
+        console.error(err);
         document.getElementById('matches').textContent = 'Error fetching data';
         document.getElementById('matches').id = 'error';
       }
     }
+
     fetchMatches();
-    setInterval(fetchMatches, 30000); // refresh every 30s
+    setInterval(fetchMatches, 60000); // refresh every 60s
   </script>
 </body>
 </html>
